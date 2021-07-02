@@ -8,6 +8,8 @@
 #include <iostream>
 #include <string>
 
+#include "flecs/flecs.h"
+
 class Engine {
  public:
   Engine(const char* title);
@@ -25,6 +27,8 @@ class Engine {
  private:
   SDL_Window* window{nullptr};
   SDL_GLContext context{nullptr};
+
+  flecs::world ecs;
 
   bool _running{false};
 };
