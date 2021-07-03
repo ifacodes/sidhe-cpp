@@ -1,4 +1,5 @@
 
+#include <cstdlib>
 #include <iostream>
 
 #include "engine.hpp"
@@ -6,8 +7,32 @@
 int main(int argc, char *args[]) {
   Engine e = Engine("Test Title");
 
+  uint64_t prev = SDL_GetPerformanceCounter();
+  float acc = 0;
+
   while (e.running()) {
-    e.update();
+    uint64_t curr = SDL_GetPerformanceCounter();
+    float dt = static_cast<float>(
+        (curr - prev) / static_cast<float>(SDL_GetPerformanceFrequency()));
+    prev = curr;
+
+    if (abs(dt - (1.0 / 120.0)) < 0.0002) {
+      dt = (1.0 / 120.0);
+    }
+    if (abs(dt - (1.0 / 60.0)) < 0.0002) {
+      dt = (1.0 / 60.0);
+    }
+    if (abs(dt - (1.0 / 30.0)) < 0.0002) {
+      dt = (1.0 / 30.0);
+    }
+    acc += dt;
+
+    std::cout << dt << std::endl;
+
+    while (acc >= (1.0 / 60.0)) {
+      e.update(dt);
+      acc -= (1.0 / 60.0);
+    }
     e.render();
   }
 

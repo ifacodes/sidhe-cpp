@@ -9,6 +9,8 @@ Engine::~Engine() {
   SDL_DestroyWindow(window);
   printf("Window Destroyed\n");
 
+  delete test;
+
   SDL_Quit();
   printf("SDL Quit\n");
 }
@@ -20,8 +22,8 @@ void Engine::initSDL(const char* title) {
                              std::string(SDL_GetError()));
   }
 
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
   window =
@@ -57,9 +59,9 @@ void Engine::initSDL(const char* title) {
   initGL();
 }
 
-void Engine::initGL() {}
+void Engine::initGL() { test = new Shader("../shaders/test.glsl", true, true); }
 
-void Engine::update() {
+void Engine::update(float dt) {
   SDL_Event e;
 
   while (SDL_PollEvent(&e)) {
@@ -70,6 +72,7 @@ void Engine::update() {
     }
   }
 
+  trans = glm::rotate(trans, dt, glm::vec3(0.0f, 0.0f, 1.0f));
   // do update stuff here!
 }
 
@@ -77,9 +80,17 @@ void Engine::render() {
   glClearColor(0.2f, 0.3f, 0.4f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+  unsigned int VAO;
+  glGenVertexArrays(1, &VAO);
   // reset viewport?
 
+  unsigned int transformLoc = glGetUniformLocation(test->ID, "transform");
+  test->use();
+  glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+
+  glBindVertexArray(VAO);
   // do rendering here!
+  glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
   SDL_GL_SwapWindow(window);
 }

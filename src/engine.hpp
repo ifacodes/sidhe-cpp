@@ -4,11 +4,15 @@
 #include <GL/glu.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
+#include <flecs.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 #include <string>
 
-#include "flecs/flecs.h"
+#include "shaders/shaders.hpp"
 
 class Engine {
  public:
@@ -19,7 +23,7 @@ class Engine {
                                     // with resolution selection
   void initGL();
 
-  void update();
+  void update(float dt);
   void render();
 
   bool running() { return _running; }
@@ -29,6 +33,11 @@ class Engine {
   SDL_GLContext context{nullptr};
 
   flecs::world ecs;
+
+  glm::vec4 vec{glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)};
+  glm::mat4 trans{glm::mat4(1.0f)};
+
+  Shader* test{nullptr};
 
   bool _running{false};
 };
