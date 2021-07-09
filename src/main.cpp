@@ -27,8 +27,6 @@ int main(int argc, char *args[]) {
     }
     acc += dt;
 
-    std::cout << dt << std::endl;
-
     while (acc >= (1.0 / 60.0)) {
       e.update(dt);
       acc -= (1.0 / 60.0);
