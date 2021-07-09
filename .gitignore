@@ -1,6 +1,7 @@
 .vscode
 
-**/flecs
+*.png
+**/stb_image.h
 
 /build
 
