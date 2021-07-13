@@ -4,7 +4,7 @@
 #include <GL/glu.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
-#include <flecs.h>
+//#include <flecs.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -39,7 +39,7 @@ class Engine {
 
   int width{0}, height{0};
 
-  flecs::world ecs;
+  // flecs::world ecs;
   Map* map{nullptr};
   float vertices[4] = {0.0f, 0.0f, 1.0f, 0.0f};
 

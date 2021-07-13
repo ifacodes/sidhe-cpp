@@ -55,7 +55,7 @@ void Engine::initSDL(const char* title) {
 }
 
 void Engine::initGL() {
-  test = new Shader("../shaders/test.glsl", true, true);
+  test = new Shader("..\\shaders\\test.glsl", true, true);
   SDL_GL_GetDrawableSize(window, &width, &height);
   int ratioX = width / 240.f;
   int ratioY = width / 160.f;
