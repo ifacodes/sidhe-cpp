@@ -17,7 +17,7 @@ struct Vertex {
 
 class Map {
  public:
-  Map(uint8_t width, uint8_t height) : width(width), height(height) {
+  Map() : width(15), height(10) {
     vertices.resize((width + 1) * (height + 1));
     indices.resize((width * 6) * height);
     // generate vertices based on amount of tiles
@@ -78,6 +78,5 @@ class Map {
   uint8_t width, height;
   std::vector<Vertex> vertices;
   std::vector<GLuint> indices;
-  uint8_t chunk_size{16};
   std::vector<uint8_t> map_data;
 };

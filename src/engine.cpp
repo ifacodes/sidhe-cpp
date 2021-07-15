@@ -79,22 +79,24 @@ void Engine::update(float dt) {
         break;
       case SDL_WINDOWEVENT:
         if (e.window.event == SDL_WINDOWEVENT_RESIZED) {
-          SDL_GL_GetDrawableSize(window, &width, &height);
-          int ratioX = width / 240.f;
-          int ratioY = width / 160.f;
-          int ratio = ratioX < ratioY ? ratioX : ratioY;
-          int viewW = 240.f * ratio;
-          int viewH = 160.f * ratio;
-          int viewX = (width - 240.f * ratio) / 2;
-          int viewY = (height - 160.f * ratio) / 2;
-
-          glViewport(viewX, viewY, viewW, viewH);
-          glScissor(viewX, viewY, viewW, viewH);
-          std::cout << "size changed" << std::endl;
-          break;
+          updateViewport();
         }
     }
   }
+}
+
+void Engine::updateViewport() {
+  SDL_GL_GetDrawableSize(window, &width, &height);
+  int ratioX = width / 240.f;
+  int ratioY = height / 160.f;
+  int ratio = ratioX < ratioY ? ratioX : ratioY;
+  int viewW = 240.f * ratio;
+  int viewH = 160.f * ratio;
+  int viewX = (width - 240.f * ratio) / 2;
+  int viewY = (height - 160.f * ratio) / 2;
+
+  glViewport(viewX, viewY, viewW, viewH);
+  glScissor(viewX, viewY, viewW, viewH);
 }
 
 // trans = glm::rotate(trans, dt, glm::vec3(0.0f, 0.0f, 1.0f));
