@@ -13,6 +13,7 @@
 #include <string>
 
 #include "map.hpp"
+#include "resources/resource_manager.hpp"
 #include "shaders/shaders.hpp"
 
 class Engine {
@@ -21,6 +22,9 @@ class Engine {
     initSDL(title);
     _running = true;
     map = new Map();
+    rm = new ResourceManager();
+    auto st = rm->getTexture("../textures/maptest.png");
+    st->print();
   }
   ~Engine();
 
@@ -37,6 +41,8 @@ class Engine {
  private:
   SDL_Window* window{nullptr};
   SDL_GLContext context{nullptr};
+
+  ResourceManager* rm{nullptr};
 
   int width{0}, height{0};
 

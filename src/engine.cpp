@@ -5,6 +5,8 @@ Engine::~Engine() {
   printf("Window Destroyed\n");
 
   delete test;
+  delete map;
+  delete rm;
 
   SDL_Quit();
   printf("SDL Quit\n");
@@ -22,7 +24,7 @@ void Engine::initSDL(const char* title) {
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
   window = SDL_CreateWindow(
-      title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 960, 640,
+      title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 480, 320,
       SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_RESIZABLE);
 
   if (!window) {
@@ -56,17 +58,7 @@ void Engine::initSDL(const char* title) {
 
 void Engine::initGL() {
   test = new Shader("..\\shaders\\test.glsl", true, true);
-  SDL_GL_GetDrawableSize(window, &width, &height);
-  int ratioX = width / 240.f;
-  int ratioY = width / 160.f;
-  int ratio = ratioX < ratioY ? ratioX : ratioY;
-  int viewW = 240.f * ratio;
-  int viewH = 160.f * ratio;
-  int viewX = (width - 240.f * ratio) / 2;
-  int viewY = (height - 160.f * ratio) / 2;
-
-  glViewport(viewX, viewY, viewW, viewH);
-  glScissor(viewX, viewY, viewW, viewH);
+  updateViewport();
 }
 
 void Engine::update(float dt) {
