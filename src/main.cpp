@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <iostream>
 
+#define STB_IMAGE_IMPLEMENTATION
 #include "engine.hpp"
 
 int main(int argc, char *args[]) {
