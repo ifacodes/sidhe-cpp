@@ -4,8 +4,7 @@ Engine::~Engine() {
   SDL_DestroyWindow(window);
   printf("Window Destroyed\n");
 
-  delete test;
-  delete map;
+  delete mr;
   delete rm;
 
   SDL_Quit();
@@ -52,13 +51,14 @@ void Engine::initSDL(const char* title) {
                                std::string(SDL_GetError()));
     }
   }
-
-  initGL();
+  updateViewport();
 }
 
-void Engine::initGL() {
-  test = new Shader("..\\shaders\\test.glsl", true, true);
-  updateViewport();
+void Engine::init() {
+  mr = new MapRenderer();
+  rm = new ResourceManager();
+  auto st = rm->getTexture("../textures/maptest.png");
+  st->print();
 }
 
 void Engine::update(float dt) {
@@ -102,16 +102,9 @@ void Engine::render() {
   glClear(GL_COLOR_BUFFER_BIT);
   glDisable(GL_SCISSOR_TEST);
 
-  test->use();
-
-  unsigned int modelLoc = glGetUniformLocation(test->ID, "model");
-  glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-  unsigned int orthoLoc = glGetUniformLocation(test->ID, "ortho");
-  glUniformMatrix4fv(orthoLoc, 1, GL_FALSE, glm::value_ptr(ortho));
-
   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-  map->render();
+  mr->render();
 
   // do rendering here!
   glBindVertexArray(0);

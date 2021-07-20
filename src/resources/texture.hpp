@@ -1,5 +1,6 @@
 #pragma once
 #include "../utils/stb_image.h"
+#include "../utils/type_probing.hpp"
 #include "resource.hpp"
 
 struct Texture : Resource {
@@ -8,7 +9,7 @@ struct Texture : Resource {
   };
 
   virtual void print() const override {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    std::cout << type_name<Texture>() << std::endl;
   };
 
   int x{0}, y{0}, n{0};

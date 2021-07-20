@@ -7,6 +7,7 @@
 
 int main(int argc, char *args[]) {
   Engine e = Engine("Test Title");
+  e.init();
 
   uint64_t prev = SDL_GetPerformanceCounter();
   float acc = 0;
